@@ -18,7 +18,7 @@ npm install
 SHOPIFY_PRODUCT_ID=6775582392456
 SHOPIFY_PRODUCT_HANDLE=range-grey-hoodie
 SHOPIFY_STORE_DOMAIN=range-coding-challenge.myshopify.com
-SHOPIFY_API=your-storefront-access-token
+SHOPIFY_API= <your-storefront-access-token-here>
 ```
 
 3. Start development server:
