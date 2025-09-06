@@ -72,9 +72,9 @@ export default async function NavBar() {
 
 
                     <div className="flex justify-end gap-3 ">
-                        <Image src={searchIcon} alt="Search" className="object-contain" />
-                        <Image src={profileIcon} alt="Profile" className="object-contain" />
-                        <Image src={cartIcon} alt="Cart" className="object-contain" />
+                        <Image src={searchIcon} alt="Search" className="object-contain cursor-pointer" />
+                        <Image src={profileIcon} alt="Profile" className="object-contain cursor-pointer" />
+                        <Image src={cartIcon} alt="Cart" className="object-contain cursor-pointer" />
                     </div>
 
 
