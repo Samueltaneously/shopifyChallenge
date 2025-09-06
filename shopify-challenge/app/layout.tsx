@@ -34,10 +34,21 @@ export default function RootLayout({
 
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`h-screen flex flex-col ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavBar />
-        {children}
+        {/* NOTE to SELF */}
+        {/* <body> had h-screen and <main> had h-4/6. h-screen = 100vh   h-4/6 = ~66% of parent
+            The remaining space is less than needed, so footer can appear mid-page when content is short or small screens
+            Using fractional heights (Ex. h-4/6) leads to subpixel rounding and clipping which causes page content to overlap with footer
+              Fix:
+              Removed h-4/6 on <main>.
+              Use only flex layout with flex-1 to fill the space */}
+        <main className="flex-1 w-full "
+        >
+          {children}
+        </main>
+
         <Footer />
       </body>
 

@@ -1,10 +1,14 @@
-"use client";
+// "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+// import React, { useEffect, useState } from "react";
+import { getShop, SHOP_QUERY } from "@/app/library/shopify";
 import Link from "next/link";
 import Image from 'next/image';
 
-
+// import RangeLogo from '../rangelogo.png';
+import searchIcon from '../searchIcon.png';
+import profileIcon from '../profileIcon.png';
+import cartIcon from '../cartIcon.png';
 
 const links = [
     { href: '/', label: 'Home' },
@@ -14,71 +18,90 @@ const links = [
     { href: '/', label: 'Gift Cards' },
 ];
 
+const siteAlert = 'FREE SHIPPING ON $150 USD+ ORDERS';
 
-export default function NavBar() {
+export default async function NavBar() {
+
+
+    // const [logoUrl, setLogoUrl] = useState<string | null>(null);
+    // const [logoAlt, setLogoAlt] = useState("Range Logo");
+
+    let logoUrl = '';
+    let logoAlt = "Range Logo";
+
+    try {
+        const data = await getShop(SHOP_QUERY);
+
+        const shop = data?.shop;
+        if (shop?.brand?.logo?.image?.url) {
+            logoUrl = shop.brand.logo.image.url;
+            logoAlt = shop.brand.logo.image.altText || shop.name || "Range Logo";
+        }
+    } catch (err) {
+        console.warn("Failed fetch shop logo", err);
+    }
 
     return (
-        <div id='headerSPACE'
-            className='w-full h-1/7 flex flex-col bg-blue-600'
-        >
+        <header className="h-1/6 w-full flex flex-col bg-blue-900 text-white">
 
 
-            <div id='siteWideAlertBANNER'
-                className='w-full h-1/5 bg-blue-200 text-black flex justify-center'
+            <div id="siteALERT"
+                className="w-full bg-cyan-500 text-black text-xs font-bold flex items-center justify-center py-1 md:py-2"
             >
-                <p id='siteALERT'>SITE ALERT HERE?</p>
+                <p>{siteAlert}</p>
             </div>
 
 
-
-            <div id="navigationSPACE"
-                className='w-7/8 justify-between'
+            <div id="navigationBANNER"
+                className="w-4/5 mx-auto flex items-center justify-between py-3 md:py-4"
             >
 
-                <div id='rangeLogo'
-                    className='flex justify-start'
+
+                <div id="LOGO"
+                    className="relative w-32 md:w-40 lg:w-48 aspect-[4/1] flex-shrink-0"
                 >
-                    Placehold
+                    {logoUrl && (
+                        <Image src={logoUrl} alt={logoAlt} fill className="object-contain" />
+                    )}
                 </div>
 
-                <div id="navigation"
-                    className='flex justify-end'
+
+                <div id="NAVIGATION"
+                    className="flex flex-col justify-center"
                 >
-                    <div id='iconButtons'>
-                        <div id='searchBUTTON'>Se</div>
-                        <div id='profileBUTTON'>Pr</div>
-                        <div id='cartBUTTON'>Ca</div>
+
+
+                    <div className="flex justify-end gap-3 ">
+                        <Image src={searchIcon} alt="Search" className="object-contain" />
+                        <Image src={profileIcon} alt="Profile" className="object-contain" />
+                        <Image src={cartIcon} alt="Cart" className="object-contain" />
                     </div>
 
-                    <div id='linkButtons'>
-                        <nav className=''>
-                            <ul className="flex flex-row items-start p-4">
-                                {links.map((link, index) => (
-                                    <li key={index} className="" >
-                                        <Link href={link.href} className="hover:text-gray-300">
-                                            {link.label}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                        </nav>
-                    </div>
+
+                    <nav>
+                        <ul className="flex flex-row justify-end gap-3 text-sm md:text-base">
+                            {links.map((link, index) => (
+                                <li key={index}>
+                                    <Link
+                                        href={link.href}
+                                        className="hover:underline hover:[text-shadow:0_0_1.5px_currentColor]"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
 
                 </div>
-
             </div>
 
 
-            <div id='spectralFinesseBANNER'
-                className='w-full h-2px'
-            >
-
-            </div>
+            <div id="gradientSEPARATOR"
+                className="w-full h-1 mt-auto bg-white bg-opacity-50 bg-gradient-to-r from-purple-500 to-cyan-500"
+            ></div>
 
 
-
-        </div>
-
+        </header>
     );
-
 }
